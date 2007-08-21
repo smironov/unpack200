@@ -1,8 +1,6 @@
-import java.util.jar.Pack200;
+import java.io.*;
 import java.util.jar.JarOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.FileOutputStream;
+import java.util.jar.Pack200;
 
 public class Unpack200 {
     public static void main(String[] args) throws IOException {
@@ -23,11 +21,14 @@ public class Unpack200 {
             return;
         }
         File packFile = new File(packFilename);
-        final FileOutputStream out = new FileOutputStream(jarFilename);
+        InputStream in = new BufferedInputStream(new FileInputStream(packFile));
+        final OutputStream out = new BufferedOutputStream(new FileOutputStream(jarFilename));
         try {
             final JarOutputStream jarOutputStream = new JarOutputStream(out);
-            unpacker.unpack(packFile, jarOutputStream);
+            unpacker.unpack(in, jarOutputStream);
+            jarOutputStream.finish();
         } finally {
+            in.close();
             out.close();
         }
     }
