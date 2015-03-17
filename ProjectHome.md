@@ -1,0 +1,1 @@
+This project helps to distribute java applications with libraries packed and provides scripts to pack and unpack files.
